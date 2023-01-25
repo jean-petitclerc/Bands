@@ -35,7 +35,6 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Références</a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="{% url 'bands:list_countries' %}">Pays</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
@@ -44,10 +43,10 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Session</a>
                     <ul class="dropdown-menu">
                       {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="#">Déconnexion ( {{ user.username }} )</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:logout_account' %}">Déconnexion ( {{ user.username }} )</a></li>
                       {% else %}
-                        <li><a class="dropdown-item" href="#">Connexion</a></li>
-                        <li><a class="dropdown-item" href="{% url 'register_account' %}">Inscription</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:login_account' %}">Connexion</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:register_account' %}">Inscription</a></li>
                       {% endif %}
                     </ul>
                   </li>
