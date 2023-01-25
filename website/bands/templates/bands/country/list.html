@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Bands{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Pays</h1>
+    </div>
+    <p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Alpha 2</th>
+                    <th scope="col">Alpha 3</th>
+                    <th scope="col">Nom français</th>
+                    <th scope="col">Nom anglais</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in countries %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'bands:detail_country' c.id %}">{{ c.country_alpha2 }}</a>
+                        </td>
+                        <td>{{ c.country_alpha3 }}</td>
+                        <td>{{ c.country_name_fr }}</td>
+                        <td>{{ c.country_name_en }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+    <p>&nbsp;</p>
+</div>
+{% endblock %}

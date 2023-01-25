@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Base{% endblock %}</title>
+  </head>
+  <body>
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Bands</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Bands</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Références</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'bands:list_countries' %}">Pays</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Session</a>
+                    <ul class="dropdown-menu">
+                      {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="#">Déconnexion ( {{ user.username }} )</a></li>
+                      {% else %}
+                        <li><a class="dropdown-item" href="#">Connexion</a></li>
+                        <li><a class="dropdown-item" href="{% url 'register_account' %}">Inscription</a></li>
+                      {% endif %}
+                    </ul>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    {% endblock %}
+    <div id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

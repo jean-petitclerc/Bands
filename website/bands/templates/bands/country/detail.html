@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Pays{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ country.country_name_fr }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alpha 2</td>
+                        <td>{{ country.country_alpha2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Alpha 3</td>
+                        <td>{{ country.country_alpha3 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nom Français</td>
+                        <td>{{ country.country_name_fr }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nom Anglais</td>
+                        <td>{{ country.country_name_en }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté</td>
+                        <td>{{ country.aud_crt_ts }}</td>
+                    </tr>
+                    <tr>
+                        <td>Modifié</td>
+                        <td>{{ country.aud_upd_ts }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+    </div>
+{% endblock %}
