@@ -17,7 +17,7 @@
   </head>
   <body>
     {% block navbar %}
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container-fluid">
             <a class="navbar-brand" href="#">Bands</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,17 +33,21 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Références</a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-dark">
                       <li><a class="dropdown-item" href="{% url 'bands:list_countries' %}">Pays</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                   </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Session</a>
-                    <ul class="dropdown-menu">
+                {% if user.is_authenticated %}
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.first_name }}</a>
+                    {% else %}
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Connexion</a>
+                    {% endif %}
+                    <ul class="dropdown-menu dropdown-menu-dark">
                       {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:logout_account' %}">Déconnexion ( {{ user.username }} )</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:logout_account' %}">Déconnexion ( {{ user.first_name }} )</a></li>
                       {% else %}
                         <li><a class="dropdown-item" href="{% url 'accounts:login_account' %}">Connexion</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:register_account' %}">Inscription</a></li>
