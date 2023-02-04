@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect
 from django.db import IntegrityError
@@ -27,6 +28,7 @@ def register_account(request):
                                                      'error': 'Les mots de passe ne concordent pas.'})
 
 
+@login_required
 def logout_account(request):
     logout(request)
     return redirect('bands:home')
