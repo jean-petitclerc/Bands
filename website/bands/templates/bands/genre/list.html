@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Liste des Genres{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Genres</h1>
+    </div>
+    <p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for g in genres %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'bands:detail_genre' g.id %}">{{ g.genre_name }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if user.is_authenticated %}
+            <a href="{% url 'bands:ajout_genre' %}" class="btn btn-primary">Ajouter un Genre</a>
+        {% endif %}
+    </p>
+    <p>&nbsp;</p>
+</div>
+{% endblock %}

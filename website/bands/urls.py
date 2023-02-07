@@ -10,4 +10,5 @@ urlpatterns = [
     path('country/<int:id>/', views.detail_country, name='detail_country'),
     path('genre', views.list_genres, name='list_genres'),
     path('genre/<int:id>/', views.detail_genre, name='detail_genre'),
+    path('genre/ajout', views.ajout_genre, name='ajout_genre'),
 ]
