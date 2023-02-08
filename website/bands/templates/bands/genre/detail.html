@@ -20,7 +20,11 @@
                     </tr>
                     <tr>
                         <td>Description</td>
-                        <td>{{ genre.genre_desc }}</td>
+                        {% if genre.genre_desc %}
+                            <td>{{ genre.genre_desc }}</td>
+                        {% else %}
+                            <td>&nbsp;</td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <td>Ajouté par</td>
@@ -50,6 +54,7 @@
             </table>
         </p>
         <p>
-            <p><a href="{% url 'bands:list_genres' %}" class="btn btn-default">Retour à la liste</a></p>
+            <a href="{% url 'bands:list_genres' %}" class="btn btn-primary">Retour à la liste</a>
+        </p>
     </div>
 {% endblock %}

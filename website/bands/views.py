@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
+from django.contrib.auth.decorators import login_required
 from .models import Country, Genre
 from .forms import FormAjoutGenre
 
@@ -37,6 +38,7 @@ def detail_genre(request, id):
                   {'genre': genre})
 
 
+@login_required
 def ajout_genre(request):
     if request.method == 'GET':
         return render(request, 'bands/genre/ajout.html',

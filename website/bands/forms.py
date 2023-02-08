@@ -15,3 +15,6 @@ class FormAjoutGenre(ModelForm):
         widgets = {
             'genre_desc': Textarea(attrs={'rows': 8}),
         }
+
+        def clean_genre_desc(self):
+            return self.cleaned_data['genre_desc'] or None

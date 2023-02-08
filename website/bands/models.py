@@ -20,7 +20,7 @@ class Country(models.Model):
 
 class Genre(models.Model):
     genre_name = models.CharField(max_length=50, null=False, unique=True)
-    genre_desc = models.CharField(max_length=2048, null=False, default='')
+    genre_desc = models.CharField(max_length=2048, null=True, blank=True, default='')
     aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='created_by')
     aud_crt_ts = models.DateTimeField(auto_now_add=True)
     aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='updated_by')

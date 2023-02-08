@@ -15,6 +15,7 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <a href="{% url 'bands:list_genres' %}" class="btn btn-primary">Annuler</a>
                     </form>
                 </p>
             </div>
