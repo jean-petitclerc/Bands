@@ -1,4 +1,5 @@
-from django.forms import ModelForm, Textarea
+from django import forms
+from django.forms import Form, ModelForm, Textarea
 from .models import Genre
 
 
@@ -18,3 +19,7 @@ class FormAjoutGenre(ModelForm):
 
         def clean_genre_desc(self):
             return self.cleaned_data['genre_desc'] or None
+
+
+class FormConfirmation(Form):
+    dummy = forms.CharField()

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Country, Genre
-from .forms import FormAjoutGenre
+from .forms import FormAjoutGenre, FormConfirmation
 
 def list_countries(request):
     countries = Country.objects.all()
@@ -32,7 +32,7 @@ def detail_genre(request, id):
     try:
         genre = Genre.objects.get(id=id)
     except Genre.DoesNotExist:
-        raise Http404("No Genre found.")
+        raise Http404("Le Genre n'a pas été retrouvé.")
     return render(request,
                   'bands/genre/detail.html',
                   {'genre': genre})
@@ -54,6 +54,27 @@ def ajout_genre(request):
             return render(request, 'bands/genre/ajout.html',
                           {'form':FormAjoutGenre(), 'error':'Données invalide.'})
 
+
+@login_required
+def supprimer_genre(request, id):
+    if request.method == 'GET':
+        try:
+            genre = Genre.objects.get(id=id)
+            return render(request, 'bands/genre/supp.html',
+                      {'form':FormConfirmation, 'genre': genre})
+        except Genre.DoesNotExist:
+            raise Http404("Le Genre n'a pas été retrouvé.")
+    else:
+        try:
+            form = FormConfirmation(request.POST)
+            genre = Genre.objects.get(id=id)
+            genre.delete()
+            return redirect('bands:list_genres')
+        except Genre.DoesNotExist:
+            raise Http404("Le Genre n'a pas été retrouvé.")
+        except ValueError:
+            return render(request, 'bands/genre/supp.html',
+                          {'form':FormSuppGenre(), 'error':'Données invalide.'})
 
 def home(request):
     return render(request, 'index.html')
