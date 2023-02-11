@@ -14,7 +14,7 @@
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Ajouté par</th>`
-                    <th scope="col">Supprimer</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,12 +25,15 @@
                         </td>
                         <td>{{ g.aud_crt_user.username }} le {{ g.aud_crt_ts }}</td>
                         <td class="text-center">
+                            <a href="{% url 'bands:modifier_genre' g.id %}"
+                               class="btn btn-primary btn-sm" data-title="Supprimer">
+                               <span class="bi-pencil"></span>
+                            </a>
                             <a href="{% url 'bands:supprimer_genre' g.id %}"
                                class="btn btn-danger btn-sm" data-title="Supprimer">
                                <span class="bi-trash"></span>
                             </a>
                         </td>
-
                     </tr>
                 {% endfor %}
             </tbody>

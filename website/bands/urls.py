@@ -12,4 +12,5 @@ urlpatterns = [
     path('genre/<int:id>/', views.detail_genre, name='detail_genre'),
     path('genre/ajout', views.ajout_genre, name='ajout_genre'),
     path('genre/supp/<int:id>', views.supprimer_genre, name='supprimer_genre'),
+    path('genre/modif/<int:id>', views.modifier_genre, name='modifier_genre'),
 ]

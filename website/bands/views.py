@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Country, Genre
-from .forms import FormAjoutGenre, FormConfirmation
+from .forms import FormAjoutGenre, FormModifGenre, FormConfirmation
 
 def list_countries(request):
     countries = Country.objects.all()
@@ -75,6 +75,28 @@ def supprimer_genre(request, id):
         except ValueError:
             return render(request, 'bands/genre/supp.html',
                           {'form':FormSuppGenre(), 'error':'Données invalide.'})
+
+
+@login_required
+def modifier_genre(request, id):
+    genre = get_object_or_404(Genre, id=id)
+    if request.method == 'GET':
+        form = FormModifGenre(instance=genre)
+        return render(request, 'bands/genre/modif.html',
+                      {'form':form, 'genre': genre})
+    else:
+        try:
+            form = FormModifGenre(request.POST, instance=genre)
+            genre = form.save(commit=False)
+            print(request.user)
+            genre.aud_upd_user = request.user
+            print(genre)
+            genre.save()
+            return redirect('bands:list_genres')
+        except ValueError:
+            return render(request, 'bands/genre/modif.html',
+                          {'form':form, 'error':'Données invalide.'})
+
 
 def home(request):
     return render(request, 'index.html')

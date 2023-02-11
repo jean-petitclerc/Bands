@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div>
+            <div class="card-body">
+                <h5 class="card-title">Modifier un Genre</h5>
+                {% if error %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <p class="card-text">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <a href="{% url 'bands:list_genres' %}" class="btn btn-primary">Annuler</a>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
