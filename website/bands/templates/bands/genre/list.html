@@ -9,6 +9,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'bands:ajout_genre' %}" class="btn btn-primary">Ajouter un Genre</a>
         {% endif %}
+        {% include "pagination.html" with page=genres %}
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -38,6 +39,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% include "pagination.html" with page=genres %}
         {% if user.is_authenticated %}
             <a href="{% url 'bands:ajout_genre' %}" class="btn btn-primary">Ajouter un Genre</a>
         {% endif %}

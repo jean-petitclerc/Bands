@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Country, Genre
 from .forms import FormAjoutGenre, FormModifGenre, FormConfirmation
@@ -22,7 +23,10 @@ def detail_country(request, id):
 
 
 def list_genres(request):
-    genres = Genre.objects.all()
+    liste_genres = Genre.objects.all()
+    paginator = Paginator(liste_genres, 25)
+    no_de_page = request.GET.get('page', 1)
+    genres = paginator.page(no_de_page)
     return render(request,
                  'bands/genre/list.html',
                  {'genres': genres})
