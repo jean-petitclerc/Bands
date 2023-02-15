@@ -17,7 +17,7 @@ def register_account(request):
                 user = User.objects.create_user(request.POST['username'], password=request.POST['password1'], email=request.POST['email'], first_name=request.POST['first_name'], last_name=request.POST['last_name'])
                 user.save()
                 login(request, user)
-                return redirect('bands:home')
+                return redirect('bands:list_bands')
             except IntegrityError:
                 form = UserCreateForm(initial={'username': request.POST['username'], 'first_name': request.POST['first_name'], 'last_name': request.POST['last_name'], 'email': request.POST['email']})
                 return render(request, 'register.html', {'form': form,
@@ -31,7 +31,7 @@ def register_account(request):
 @login_required
 def logout_account(request):
     logout(request)
-    return redirect('bands:home')
+    return redirect('bands:list_bands')
 
 
 def login_account(request):
@@ -46,4 +46,4 @@ def login_account(request):
                            'error': 'Usage ou mot de passe invalide.'})
         else:
             login(request,user)
-            return redirect('bands:home')
+            return redirect('bands:list_bands')

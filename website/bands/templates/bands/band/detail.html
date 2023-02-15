@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Band - Vue détaillée{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Vue détaillée: {{ band.band_name }}</h1>
+        </div>
+        <p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribut</th>
+                        <th scope="col">Valeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ band.band_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        {% if band.band_desc %}
+                            <td>{{ band.band_desc }}</td>
+                        {% else %}
+                            <td>&nbsp;</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Ajouté par</td>
+                        <td>{{ band.aud_crt_user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ajouté le</td>
+                        <td>{{ band.aud_crt_ts }}</td>
+                    </tr>
+                    <tr>
+                        <td>Mis à jour par</td>
+                        {% if band.aud_upd_user %}
+                            <td>{{ band.aud_upd_user.username }}</td>
+                        {% else %}
+                            <td>Pas de mise à jour</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Mis à jour le</td>
+                        {% if band.aud_upd_user %}
+                            <td>{{ band.aud_upd_ts }}</td>
+                        {% else %}
+                            <td>Pas de mise à jour</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+        <p>
+            <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+        </p>
+    </div>
+{% endblock %}

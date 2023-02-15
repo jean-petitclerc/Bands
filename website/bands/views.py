@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from .models import Country, Genre
+from .models import Band, Country, Genre
 from .forms import FormAjoutGenre, FormModifGenre, FormConfirmation
 
 def list_countries(request):
@@ -102,5 +102,25 @@ def modifier_genre(request, id):
                           {'form':form, 'error':'Données invalide.'})
 
 
-def home(request):
-    return render(request, 'index.html')
+def list_bands(request):
+    liste_bands = Band.objects.all()
+    paginator = Paginator(liste_bands, 25)
+    no_de_page = request.GET.get('page', 1)
+    bands = paginator.page(no_de_page)
+    return render(request,
+                 'bands/band/list.html',
+                 {'bands': bands})
+
+
+def detail_band(request, id):
+    try:
+        band = Band.objects.get(id=id)
+    except Band.DoesNotExist:
+        raise Http404("Le Band n'a pas été retrouvé.")
+    return render(request,
+                  'bands/band/detail.html',
+                  {'band': band})
+
+
+#def home(request):
+#    return render(request, 'index.html')

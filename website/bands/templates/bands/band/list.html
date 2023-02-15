@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Liste des Bands{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste des Bands</h1>
+    </div>
+    <p>
+        {% if user.is_authenticated %}
+            <a href="#" class="btn btn-primary">Ajouter un Band</a>
+        {% endif %}
+        {% include "pagination.html" with page=bands %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Ajouté par</th>`
+                    {% if user.is_authenticated %}<th scope="col">Actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bands %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
+                        </td>
+                        <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
+                        {% if user.is_authenticated %}
+                            <td class="text-center">
+                                <a href="#"
+                                class="btn btn-primary btn-sm" data-title="Modifier">
+                                <span class="bi-pencil"></span>
+                                </a>
+                                <a href="#"
+                                class="btn btn-danger btn-sm" data-title="Supprimer">
+                                <span class="bi-trash"></span>
+                                </a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include "pagination.html" with page=bands %}
+        {% if user.is_authenticated %}
+            <a href="#" class="btn btn-primary">Ajouter un Band</a>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}
