@@ -53,3 +53,14 @@ class Band(models.Model):
         return self.band_name
 
 
+class BandLink(models.Model):
+    link_name = models.CharField(max_length=32, null=False)
+    link_url = models.URLField(null=False)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='link_for_a_band')
+    aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='bandlink_created_by')
+    aud_crt_ts = models.DateTimeField(auto_now_add=True)
+    aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='bandlink_updated_by')
+    aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.band.band_name + ':' + self.link_name
