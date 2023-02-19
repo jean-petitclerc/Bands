@@ -7,7 +7,7 @@
     </div>
     <p>
         {% if user.is_authenticated %}
-            <a href="#" class="btn btn-primary">Ajouter un Band</a>
+            <a href="{% url 'bands:ajout_band' %}" class="btn btn-primary">Ajouter un Band</a>
         {% endif %}
         {% include "pagination.html" with page=bands %}
         <table class="table table-bordered table-striped">
@@ -27,11 +27,11 @@
                         <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
                         {% if user.is_authenticated %}
                             <td class="text-center">
-                                <a href="#"
+                                <a href="{% url 'bands:modifier_band' b.id %}"
                                 class="btn btn-primary btn-sm" data-title="Modifier">
                                 <span class="bi-pencil"></span>
                                 </a>
-                                <a href="#"
+                                <a href="{% url 'bands:supprimer_band' b.id %}"
                                 class="btn btn-danger btn-sm" data-title="Supprimer">
                                 <span class="bi-trash"></span>
                                 </a>
@@ -43,7 +43,7 @@
         </table>
         {% include "pagination.html" with page=bands %}
         {% if user.is_authenticated %}
-            <a href="#" class="btn btn-primary">Ajouter un Band</a>
+            <a href="{% url 'bands:ajout_band' %}" class="btn btn-primary">Ajouter un Band</a>
         {% endif %}
     </p>
 </div>

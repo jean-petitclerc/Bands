@@ -3,7 +3,8 @@ from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Band, BandLink, Country, Genre
-from .forms import FormAjoutGenre, FormModifGenre, FormConfirmation
+from .forms import FormAjoutGenre, FormModifGenre, FormAjoutBand, FormModifBand, FormConfirmation
+
 
 def list_countries(request):
     countries = Country.objects.all()
@@ -78,7 +79,7 @@ def supprimer_genre(request, id):
             raise Http404("Le Genre n'a pas été retrouvé.")
         except ValueError:
             return render(request, 'bands/genre/supp.html',
-                          {'form':FormSuppGenre(), 'error':'Données invalide.'})
+                          {'form':FormConfirmation(), 'error':'Données invalide.'})
 
 
 @login_required
@@ -94,7 +95,6 @@ def modifier_genre(request, id):
             genre = form.save(commit=False)
             print(request.user)
             genre.aud_upd_user = request.user
-            print(genre)
             genre.save()
             return redirect('bands:list_genres')
         except ValueError:
@@ -123,5 +123,60 @@ def detail_band(request, id):
                   {'band': band, 'links': links})
 
 
-#def home(request):
-#    return render(request, 'index.html')
+@login_required
+def ajout_band(request):
+    if request.method == 'GET':
+        return render(request, 'bands/band/ajout.html',
+                      {'form':FormAjoutBand})
+    else:
+        try:
+            form = FormAjoutBand(request.POST)
+            band = form.save(commit=False)
+            band.aud_crt_user = request.user
+            band.save()
+            return redirect('bands:list_bands')
+        except ValueError:
+            return render(request, 'bands/band/ajout.html',
+                          {'form':FormAjoutBand(), 'error':'Données invalide.'})
+
+
+@login_required
+def supprimer_band(request, id):
+    if request.method == 'GET':
+        try:
+            band = Band.objects.get(id=id)
+            return render(request, 'bands/band/supp.html',
+                      {'form':FormConfirmation, 'band': band})
+        except Band.DoesNotExist:
+            raise Http404("Le band n'a pas été retrouvé.")
+    else:
+        try:
+            form = FormConfirmation(request.POST)
+            band = Band.objects.get(id=id)
+            band.delete()
+            return redirect('bands:list_bands')
+        except Band.DoesNotExist:
+            raise Http404("Le band n'a pas été retrouvé.")
+        except ValueError:
+            return render(request, 'bands/band/supp.html',
+                          {'form':FormConfirmation(), 'error':'Données invalide.'})
+
+
+@login_required
+def modifier_band(request, id):
+    band = get_object_or_404(Band, id=id)
+    if request.method == 'GET':
+        form = FormModifBand(instance=band)
+        return render(request, 'bands/band/modif.html',
+                      {'form':form, 'band': band})
+    else:
+        try:
+            form = FormModifBand(request.POST, instance=band)
+            band = form.save(commit=False)
+            print(request.user)
+            band.aud_upd_user = request.user
+            band.save()
+            return redirect('bands:list_bands')
+        except ValueError:
+            return render(request, 'bands/band/modif.html',
+                          {'form':form, 'error':'Données invalide.'})

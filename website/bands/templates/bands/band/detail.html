@@ -55,6 +55,7 @@
         <hr />
         <h3>Liens</h3>
         <ul class="list-group">
+        {% if links %}
         {% for l in links %}
           <li class="list-group-item pb-3 pt-3">
             <h5 class="card-title">
@@ -65,6 +66,9 @@
             </p>
           </li>
         {% endfor %}
+        {% else %}
+            Pas de liens.
+        {% endif %}
         </ul>
         </p>
         <p>

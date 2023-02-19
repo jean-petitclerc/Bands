@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Supprimer un Band{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer le band {{ band.band_name }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer ce band?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom</td>
+                                <td>{{ band.band_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                {% if band.band_desc %}
+                                    <td>{{ band.band_desc }}</td>
+                                {% else %}
+                                    <td>&nbsp;</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Ajouté par</td>
+                                <td>{{ band.aud_crt_user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Ajouté le</td>
+                                <td>{{ band.aud_crt_ts }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mis à jour par</td>
+                                {% if band.aud_upd_user %}
+                                    <td>{{ band.aud_crt_user.username }}</td>
+                                {% else %}
+                                    <td>Pas de mise à jour</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Mis à jour le</td>
+                                {% if band.aud_upd_user %}
+                                    <td>{{ band.aud_crt_ts }}</td>
+                                {% else %}
+                                    <td>Pas de mise à jour</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}
