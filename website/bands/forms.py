@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import Form, ModelForm, Textarea
-from .models import Band, Genre
+from .models import Band, BandLink, Genre
 
 
 class FormAjoutGenre(ModelForm):
@@ -73,6 +73,18 @@ class FormModifBand(ModelForm):
 
         def clean_band_desc(self):
             return self.cleaned_data['band_desc'] or None
+
+
+class FormAjoutBandLink(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        self.fields['link_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['link_url'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = BandLink
+        fields = ['link_name','link_url']
+        labels = {'link_name': ('Nom'), 'link_url': ('URL')}
 
 
 class FormConfirmation(Form):

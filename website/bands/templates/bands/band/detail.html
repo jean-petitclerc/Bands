@@ -55,20 +55,20 @@
         <hr />
         <h3>Liens</h3>
         <ul class="list-group">
-        {% if links %}
-        {% for l in links %}
-          <li class="list-group-item pb-3 pt-3">
-            <h5 class="card-title">
-              {{ l.link_name }}
-            </h5>
-            <p class="card-text">
-                <a href="{{ l.link_url }}" target="_blank" rel="noopener noreferrer">{{ l.link_url }}</a>
-            </p>
-          </li>
-        {% endfor %}
-        {% else %}
-            Pas de liens.
-        {% endif %}
+            {% if links %}
+                {% for l in links %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    {{ l.link_name }}
+                    </h5>
+                    <p class="card-text">
+                        <a href="{{ l.link_url }}" target="_blank" rel="noopener noreferrer">{{ l.link_url }}</a>
+                    </p>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de liens.
+            {% endif %}
         </ul>
         </p>
         <p>

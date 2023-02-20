@@ -24,4 +24,50 @@
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div>
+                <div class="card-body">
+                    <h3 class="card-title">Liens</h3>
+                    <p class="card-text">
+                        {% if links %}
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Ajouté par</th>`
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for l in links %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ l.link_url }}" target="_blank" rel="noopener noreferrer">{{ l.link_name }}</a>
+                                            </td>
+                                            <td>{{ l.aud_crt_user.username }} le {{ l.aud_crt_ts }}</td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-primary btn-sm" data-title="Modifier">
+                                                    <span class="bi-pencil"></span>
+                                                </a>
+                                                <a href="#" class="btn btn-danger btn-sm" data-title="Supprimer">
+                                                    <span class="bi-trash"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                <tbody>
+                            </table>
+                        {% else %}
+                            Pas de liens.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'bands:ajout_bandlink' band.id %}" class="btn btn-primary">Ajouter un lien</a>
+                    <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
