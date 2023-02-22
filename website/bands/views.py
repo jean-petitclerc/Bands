@@ -174,7 +174,6 @@ def modifier_band(request, id):
         try:
             form = FormModifBand(request.POST, instance=band)
             band = form.save(commit=False)
-            print(request.user)
             band.aud_upd_user = request.user
             band.save()
             return redirect('bands:list_bands')
@@ -193,10 +192,37 @@ def ajout_bandlink(request, band_id):
         try:
             form = FormAjoutBandLink(request.POST)
             bandlink = form.save(commit=False)
-            bandlink.aud_ctr_user = request.user
+            bandlink.aud_crt_user = request.user
+            print(request.user)
             bandlink.band = band
             bandlink.save()
-            return redirect('bands:detail_band', bandlink.band.id)
+            return redirect('bands:modifier_band', bandlink.band.id)
         except ValueError:
             return render(request, 'bands/bandlink/ajout.html',
                           {'form': FormAjoutBandLink(), 'band': band, 'error': 'Données invalides.'})
+
+
+@login_required
+def supprimer_bandlink(request, band_id, id):
+    if request.method == 'GET':
+        try:
+            band = Band.objects.get(id=band_id)
+            link = BandLink.objects.get(id=id)
+            return render(request, 'bands/bandlink/supp.html',
+                      {'form':FormConfirmation, 'band': band, 'link': link})
+        except Band.DoesNotExist:
+            raise Http404("Le band n'a pas été retrouvé.")
+        except BandLink.DoesNotExist:
+            raise Http404("Le Lien n'a pas été retrouvé.")
+    else:
+        try:
+            form = FormConfirmation(request.POST)
+            band = Band.objects.get(id=band_id)
+            link = BandLink.objects.get(id=id)
+            link.delete()
+            return redirect('bands:modifier_band', band.id)
+        except Band.DoesNotExist:
+            raise Http404("Le band n'a pas été retrouvé.")
+        except BandLink.DoesNotExist:
+            raise Http404("Le Lien n'a pas été retrouvé.")
+

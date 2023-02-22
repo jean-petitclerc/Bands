@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Supprimer un Lien{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Supprimer le lien {{ link.link_name }} pour le Band {{ band.band_name }}</h1>
+        </div>
+        <div class="module">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Es-tu sûr de vouloir supprimer ce lien?</p>
+                <p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Attribut</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom</td>
+                                <td>{{ link.link_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>{{ link.link_url }}</td>
+                            </tr>
+                            <tr>
+                                <td>Ajouté par</td>
+                                <td>{{ link.aud_crt_user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Ajouté le</td>
+                                <td>{{ link.aud_crt_ts }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mis à jour par</td>
+                                {% if link.aud_upd_user %}
+                                    <td>{{ link.aud_crt_user.username }}</td>
+                                {% else %}
+                                    <td>Pas de mise à jour</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Mis à jour le</td>
+                                {% if link.aud_upd_user %}
+                                    <td>{{ band.aud_crt_ts }}</td>
+                                {% else %}
+                                    <td>Pas de mise à jour</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-primary">Oui</button>
+                    <a href="{% url 'bands:modifier_band' band.id %}" class="btn btn-primary">Non</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

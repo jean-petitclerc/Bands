@@ -51,7 +51,7 @@
                                                 <a href="#" class="btn btn-primary btn-sm" data-title="Modifier">
                                                     <span class="bi-pencil"></span>
                                                 </a>
-                                                <a href="#" class="btn btn-danger btn-sm" data-title="Supprimer">
+                                                <a href="{% url 'bands:supprimer_bandlink' band.id l.id%}" class="btn btn-danger btn-sm" data-title="Supprimer">
                                                     <span class="bi-trash"></span>
                                                 </a>
                                             </td>

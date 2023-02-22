@@ -54,7 +54,11 @@ class Band(models.Model):
 
 
 class BandLink(models.Model):
-    link_name = models.CharField(max_length=32, null=False)
+    class LinkName(models.TextChoices):
+        WIKIPEDIA = 'Wikipedia', 'Wikipedia'
+        METALARCHIVE = 'Metal Archive', 'Metal Archive'
+        YOUTUBEMUSIC = 'YouTube Music', 'YouTube Music'
+    link_name = models.CharField(max_length=32, null=False, choices=LinkName.choices, default=LinkName.METALARCHIVE)
     link_url = models.URLField(null=False)
     band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='link_for_a_band')
     aud_crt_user = models.ForeignKey(User,on_delete=models.RESTRICT, related_name='bandlink_created_by')

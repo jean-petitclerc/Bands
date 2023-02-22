@@ -19,4 +19,6 @@ urlpatterns = [
     path('band/supp/<int:id>', views.supprimer_band, name='supprimer_band'),
     path('band/modif/<int:id>', views.modifier_band, name='modifier_band'),
     path('bandlink/ajout/<int:band_id>/', views.ajout_bandlink, name='ajout_bandlink'),
+    path('bandlink/supp/<int:band_id>/<int:id>', views.supprimer_bandlink, name='supprimer_bandlink'),
+
 ]
