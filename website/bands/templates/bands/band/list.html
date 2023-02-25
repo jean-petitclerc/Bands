@@ -6,7 +6,7 @@
         <h1>Liste des Bands</h1>
     </div>
     <p>
-        {% if user.is_authenticated %}
+        {% if maj_permises %}
             <a href="{% url 'bands:ajout_band' %}" class="btn btn-primary">Ajouter un Band</a>
         {% endif %}
         {% include "pagination.html" with page=bands %}
@@ -14,8 +14,8 @@
             <thead>
                 <tr>
                     <th scope="col">Nom</th>
-                    <th scope="col">Ajouté par</th>`
-                    {% if user.is_authenticated %}<th scope="col">Actions</th>{% endif %}
+                    <th scope="col">Ajouté par</th>
+                    {% if maj_permises %}<th scope="col">Actions</th>{% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                             <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
                         </td>
                         <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
-                        {% if user.is_authenticated %}
+                        {% if maj_permises %}
                             <td class="text-center">
                                 <a href="{% url 'bands:modifier_band' b.id %}"
                                 class="btn btn-primary btn-sm" data-title="Modifier">
@@ -42,7 +42,7 @@
             </tbody>
         </table>
         {% include "pagination.html" with page=bands %}
-        {% if user.is_authenticated %}
+        {% if maj_permises %}
             <a href="{% url 'bands:ajout_band' %}" class="btn btn-primary">Ajouter un Band</a>
         {% endif %}
     </p>

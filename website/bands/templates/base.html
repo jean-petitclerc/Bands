@@ -46,9 +46,9 @@
                     {% endif %}
                     <ul class="dropdown-menu dropdown-menu-dark">
                       {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:logout_account' %}">Déconnexion</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Déconnexion</a></li>
                       {% else %}
-                        <li><a class="dropdown-item" href="{% url 'accounts:login_account' %}">Connexion</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:login' %}">Connexion</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:register_account' %}">Inscription</a></li>
                       {% endif %}
                     </ul>
@@ -58,6 +58,33 @@
           </div>
         </nav>
     {% endblock %}
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger mt-3" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% elif message.tags == "warning" %}
+                <div class="alert alert-warning mt-3" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% elif message.tags == "info" %}
+                <div class="alert alert-info mt-3" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% elif message.tags == "success" %}
+                <div class="alert alert-success mt-3" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% else %}
+                <div class="alert alert-debug mt-3" role="alert">
+                    {{ message|safe }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endif %}
     <div id="content">
       {% block content %}
       {% endblock content %}

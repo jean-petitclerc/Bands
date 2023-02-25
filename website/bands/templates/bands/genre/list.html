@@ -6,7 +6,7 @@
         <h1>Liste des Genres</h1>
     </div>
     <p>
-        {% if user.is_authenticated %}
+        {% if maj_permises %}
             <a href="{% url 'bands:ajout_genre' %}" class="btn btn-primary">Ajouter un Genre</a>
         {% endif %}
         {% include "pagination.html" with page=genres %}
@@ -14,8 +14,10 @@
             <thead>
                 <tr>
                     <th scope="col">Nom</th>
-                    <th scope="col">Ajouté par</th>`
-                    <th scope="col">Actions</th>
+                    <th scope="col">Ajouté par</th>
+                    {% if maj_permises %}
+                        <th scope="col">Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -25,22 +27,24 @@
                             <a href="{% url 'bands:detail_genre' g.id %}">{{ g.genre_name }}</a>
                         </td>
                         <td>{{ g.aud_crt_user.username }} le {{ g.aud_crt_ts }}</td>
-                        <td class="text-center">
-                            <a href="{% url 'bands:modifier_genre' g.id %}"
-                               class="btn btn-primary btn-sm" data-title="Modifier">
-                               <span class="bi-pencil"></span>
-                            </a>
-                            <a href="{% url 'bands:supprimer_genre' g.id %}"
-                               class="btn btn-danger btn-sm" data-title="Supprimer">
-                               <span class="bi-trash"></span>
-                            </a>
-                        </td>
+                        {% if maj_permises %}
+                            <td class="text-center">
+                                <a href="{% url 'bands:modifier_genre' g.id %}"
+                                class="btn btn-primary btn-sm" data-title="Modifier">
+                                <span class="bi-pencil"></span>
+                                </a>
+                                <a href="{% url 'bands:supprimer_genre' g.id %}"
+                                class="btn btn-danger btn-sm" data-title="Supprimer">
+                                <span class="bi-trash"></span>
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% include "pagination.html" with page=genres %}
-        {% if user.is_authenticated %}
+        {% if maj_permises %}
             <a href="{% url 'bands:ajout_genre' %}" class="btn btn-primary">Ajouter un Genre</a>
         {% endif %}
     </p>
