@@ -40,11 +40,10 @@ class Band(models.Model):
     aud_crt_ts = models.DateTimeField(auto_now_add=True)
     aud_upd_user = models.ForeignKey(User,on_delete=models.RESTRICT, null=True, related_name='band_updated_by')
     aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
-    #genres = db.relationship('BandGenre', backref='tband', lazy='dynamic')
-    #countries = db.relationship('BandCountry', backref='tband', lazy='dynamic')
+    plays_genres = models.ManyToManyField(Genre, related_name='genre_played_by_bands')
+    from_countries = models.ManyToManyField(Country, related_name='created_bands')
     #comments = db.relationship('BandComment', backref='tband', lazy='dynamic')
     #fans = db.relationship('UserBand', backref='tband', lazy='dynamic')  # User's library
-    #links = db.relationship('BandLink', backref='tband', lazy='dynamic')
 
     class Meta:
         ordering = ['band_name']

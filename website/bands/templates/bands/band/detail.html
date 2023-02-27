@@ -70,6 +70,36 @@
                 Pas de liens.
             {% endif %}
         </ul>
+        <hr />
+        <h3>Genres</h3>
+        <ul class="list-group">
+            {% if genres %}
+                {% for g in genres %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    {{ g.genre_name }}
+                    </h5>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de genre défini.
+            {% endif %}
+        </ul>
+        <hr />
+        <h3>Pays</h3>
+        <ul class="list-group">
+            {% if countries %}
+                {% for c in countries %}
+                <li class="list-group-item pb-3 pt-3">
+                    <h5 class="card-title">
+                    {{ c.country_name_fr }}
+                    </h5>
+                </li>
+                {% endfor %}
+            {% else %}
+                Pas de pays défini.
+            {% endif %}
+        </ul>
         </p>
         <p>
             <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>

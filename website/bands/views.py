@@ -140,11 +140,13 @@ def detail_band(request, id):
     try:
         band = Band.objects.get(id=id)
         links = BandLink.objects.filter(band = band)
+        genres = band.plays_genres.all()
+        countries = band.from_countries.all()
     except Band.DoesNotExist:
         raise Http404("Le Band n'a pas été retrouvé.")
     return render(request,
                   'bands/band/detail.html',
-                  {'band': band, 'links': links})
+                  {'band': band, 'links': links, 'genres': genres, 'countries': countries})
 
 
 @login_required
