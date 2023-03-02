@@ -204,10 +204,11 @@ def modifier_band(request, id):
     if request.user.groups.filter(name = 'Editeur').exists():
         band = get_object_or_404(Band, id=id)
         links = BandLink.objects.filter(band = band)
+        countries = band.from_countries.all()
         if request.method == 'GET':
             form = FormModifBand(instance=band)
             return render(request, 'bands/band/modif.html',
-                        {'form':form, 'band': band, 'links': links})
+                        {'form':form, 'band': band, 'links': links, 'countries': countries})
         else:
             try:
                 form = FormModifBand(request.POST, instance=band)
@@ -218,7 +219,7 @@ def modifier_band(request, id):
                 return redirect('bands:list_bands')
             except ValueError:
                 return render(request, 'bands/band/modif.html',
-                            {'form':form, 'band': band, 'links': links, 'error':'Données invalides.'})
+                            {'form':form, 'band': band, 'links': links, 'countries': countries, 'error':'Données invalides.'})
     else:
         messages.warning(request, "Tu ne peux pas modifier de bands.")
         return redirect('bands:list_bands')
@@ -275,5 +276,60 @@ def supprimer_bandlink(request, band_id, id):
                 raise Http404("Le Lien n'a pas été retrouvé.")
     else:
         messages.warning(request, "Tu ne peux pas supprimer de liens.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def band_choisir_pays(request, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=id)
+            countries = Country.objects.all().order_by('country_name_fr')
+            curr_countries = [c.id for c in band.from_countries.all()]
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        return render(request,
+                    'bands/band/choisir_pays.html',
+                    {'band': band, 'countries': countries, 'curr_countries':  curr_countries})
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de pays.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def band_ajouter_pays(request, band_id, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=band_id)
+            country = Country.objects.get(id=id)
+            band.from_countries.add(country)
+            band.save()
+            return redirect('bands:modifier_band', band_id)
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        except Country.DoesNotExist:
+            raise Http404("Le Pays n'a pas été retrouvé.")
+        return redirect('bands:modifier_band', band_id)
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de pays.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def band_enlever_pays(request, band_id, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=band_id)
+            country = Country.objects.get(id=id)
+            band.from_countries.remove(country)
+            band.save()
+            return redirect('bands:modifier_band', band_id)
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        except Country.DoesNotExist:
+            raise Http404("Le Pays n'a pas été retrouvé.")
+        return redirect('bands:modifier_band', band_id)
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de pays.")
         return redirect('bands:modifier_band', band_id)
 

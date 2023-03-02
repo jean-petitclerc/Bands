@@ -70,4 +70,47 @@
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div>
+                <div class="card-body">
+                    <h3 class="card-title">Pays</h3>
+                    <p class="card-text">
+                        {% if countries %}
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Alpha 2</th>
+                                        <th scope="col">Alpha 3</th>
+                                        <th class="text-center" scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for c in countries %}
+                                        <tr>
+                                            <td>{{ c.country_name_fr }}</td>
+                                            <td>{{ c.country_alpha2 }}</td>
+                                            <td>{{ c.country_alpha3 }}</td>
+                                            <td class="text-center">
+                                                <a href="{% url 'bands:band_enlever_pays' band.id c.id %}" class="btn btn-danger btn-sm" data-title="Supprimer">
+                                                    <span class="bi-dash-circle"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                <tbody>
+                            </table>
+                        {% else %}
+                            Pas de pays.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'bands:band_choisir_pays' band.id %}" class="btn btn-primary">Ajouter un pays</a>
+                    <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

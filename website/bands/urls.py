@@ -20,5 +20,7 @@ urlpatterns = [
     path('band/modif/<int:id>', views.modifier_band, name='modifier_band'),
     path('bandlink/ajout/<int:band_id>/', views.ajout_bandlink, name='ajout_bandlink'),
     path('bandlink/supp/<int:band_id>/<int:id>', views.supprimer_bandlink, name='supprimer_bandlink'),
-
+    path('band/choisir_pays/<int:id>', views.band_choisir_pays, name='band_choisir_pays'),
+    path('band/ajout_pays/<int:band_id>/<int:id>', views.band_ajouter_pays, name='band_ajouter_pays'),
+    path('band/enlever_pays/<int:band_id>/<int:id>', views.band_enlever_pays, name='band_enlever_pays'),
 ]

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Band - Ajouter un pays{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Pays disponibles pour: {{ band.band_name }}</h1>
+        </div>
+        <p>
+            <a href="{% url 'bands:modifier_band' band.id %}" class="btn btn-primary">Retour</a>
+        </p>
+        <ul class="list-group">
+            {% if countries %}
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Alpha 2</th>
+                            <th scope="col">Alpha 3</th>
+                            <th class="text-center" scope="col">Choisir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in countries %}
+                            {% if c.id not in curr_countries %}
+                                <tr>
+                                    <td>{{ c.country_name_fr }}</td>
+                                    <td>{{ c.country_alpha2 }}</td>
+                                    <td>{{ c.country_alpha3 }}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'bands:band_ajouter_pays' band.id c.id %}"
+                                        class="btn btn-success btn-sm" data-title="Retirer">
+                                        <span class="bi-plus-circle"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                Pas de pays.
+            {% endif %}
+        </ul>
+        </p>
+        <p>
+            <a href="{% url 'bands:modifier_band' band.id %}" class="btn btn-primary">Retour</a>
+        </p>
+    </div>
+{% endblock %}
