@@ -15,7 +15,7 @@
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Ajouté par</th>
-                    {% if maj_permises %}<th scope="col">Actions</th>{% endif %}
+                    {% if maj_permises %}<th class="text-center" scope="col">Actions</th>{% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +35,17 @@
                                 class="btn btn-danger btn-sm" data-title="Supprimer">
                                 <span class="bi-trash"></span>
                                 </a>
+                                {% if b.is_fan %}
+                                    <a href="{% url 'bands:ne_pas_aimer_band' b.id %}"
+                                    class="btn btn-primary btn-sm" data-title="NePlusAimer">
+                                    <span class="bi-heartbreak-fill"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'bands:aimer_band' b.id %}"
+                                    class="btn btn-primary btn-sm" data-title="Aimer">
+                                    <span class="bi-heart-fill"></span>
+                                    </a>
+                                {% endif %}
                             </td>
                         {% endif %}
                     </tr>

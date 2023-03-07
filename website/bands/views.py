@@ -128,12 +128,34 @@ def list_bands(request):
         if request.user.groups.filter(name = 'Editeur').exists():
             maj_permises = True
     liste_bands = Band.objects.all()
+    if request.user.is_authenticated:
+        liste_bands_aimés = request.user.is_fan_of.all()
+        for b in liste_bands:
+            if b in liste_bands_aimés:
+                b.is_fan = True
+            else:
+                b.is_fan = False
     paginator = Paginator(liste_bands, 25)
     no_de_page = request.GET.get('page', 1)
     bands = paginator.page(no_de_page)
     return render(request,
                  'bands/band/list.html',
                  {'bands': bands, 'maj_permises': maj_permises})
+
+
+@login_required
+def list_my_bands(request):
+    maj_permises = False
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name = 'Editeur').exists():
+            maj_permises = True
+    liste_bands = request.user.is_fan_of.all()
+    paginator = Paginator(liste_bands, 25)
+    no_de_page = request.GET.get('page', 1)
+    bands = paginator.page(no_de_page)
+    return render(request,
+                 'bands/band/mes_bands.html',
+                 {'bands': bands})
 
 
 def detail_band(request, id):
@@ -205,10 +227,11 @@ def modifier_band(request, id):
         band = get_object_or_404(Band, id=id)
         links = BandLink.objects.filter(band = band)
         countries = band.from_countries.all()
+        genres = band.plays_genres.all()
         if request.method == 'GET':
             form = FormModifBand(instance=band)
             return render(request, 'bands/band/modif.html',
-                        {'form':form, 'band': band, 'links': links, 'countries': countries})
+                        {'form':form, 'band': band, 'links': links, 'countries': countries, 'genres': genres})
         else:
             try:
                 form = FormModifBand(request.POST, instance=band)
@@ -219,7 +242,7 @@ def modifier_band(request, id):
                 return redirect('bands:list_bands')
             except ValueError:
                 return render(request, 'bands/band/modif.html',
-                            {'form':form, 'band': band, 'links': links, 'countries': countries, 'error':'Données invalides.'})
+                            {'form':form, 'band': band, 'links': links, 'countries': countries, 'genres': genres, 'error':'Données invalides.'})
     else:
         messages.warning(request, "Tu ne peux pas modifier de bands.")
         return redirect('bands:list_bands')
@@ -333,3 +356,79 @@ def band_enlever_pays(request, band_id, id):
         messages.warning(request, "Tu ne peux pas modifier la liste de pays.")
         return redirect('bands:modifier_band', band_id)
 
+
+@login_required
+def band_choisir_genre(request, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=id)
+            genres = Genre.objects.all().order_by('genre_name')
+            curr_genres = [g.id for g in band.plays_genres.all()]
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        return render(request,
+                    'bands/band/choisir_genre.html',
+                    {'band': band, 'genres': genres, 'curr_genres':  curr_genres})
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de genres.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def band_ajouter_genre(request, band_id, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=band_id)
+            genre = Genre.objects.get(id=id)
+            band.plays_genres.add(genre)
+            band.save()
+            return redirect('bands:modifier_band', band_id)
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        except Genre.DoesNotExist:
+            raise Http404("Le Genre n'a pas été retrouvé.")
+        return redirect('bands:modifier_band', band_id)
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de genres.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def band_enlever_genre(request, band_id, id):
+    if request.user.groups.filter(name = 'Editeur').exists():
+        try:
+            band = Band.objects.get(id=band_id)
+            genre = Genre.objects.get(id=id)
+            band.plays_genres.remove(genre)
+            band.save()
+            return redirect('bands:modifier_band', band_id)
+        except Band.DoesNotExist:
+            raise Http404("Le Band n'a pas été retrouvé.")
+        except Genre.DoesNotExist:
+            raise Http404("Le Genre n'a pas été retrouvé.")
+        return redirect('bands:modifier_band', band_id)
+    else:
+        messages.warning(request, "Tu ne peux pas modifier la liste de genres.")
+        return redirect('bands:modifier_band', band_id)
+
+
+@login_required
+def aimer_band(request, id):
+    try:
+        band = Band.objects.get(id=id)
+        request.user.is_fan_of.add(band)
+        request.user.save()
+        return redirect('bands:list_my_bands')
+    except Band.DoesNotExist:
+        raise Http404("Le band n'a pas été retrouvé.")
+
+
+@login_required
+def ne_pas_aimer_band(request, id):
+    try:
+        band = Band.objects.get(id=id)
+        request.user.is_fan_of.remove(band)
+        request.user.save()
+        return redirect('bands:list_my_bands')
+    except Band.DoesNotExist:
+        raise Http404("Le band n'a pas été retrouvé.")

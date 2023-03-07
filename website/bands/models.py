@@ -42,8 +42,8 @@ class Band(models.Model):
     aud_upd_ts = models.DateTimeField(auto_now=True, null=True)
     plays_genres = models.ManyToManyField(Genre, related_name='genre_played_by_bands')
     from_countries = models.ManyToManyField(Country, related_name='created_bands')
+    has_fans = models.ManyToManyField(User, related_name='is_fan_of')
     #comments = db.relationship('BandComment', backref='tband', lazy='dynamic')
-    #fans = db.relationship('UserBand', backref='tband', lazy='dynamic')  # User's library
 
     class Meta:
         ordering = ['band_name']

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Liste de mes bands{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Liste de mes bands</h1>
+    </div>
+    <p>
+        {% if bands %}
+            {% include "pagination.html" with page=bands %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Ajouté par</th>
+                        {% if maj_permises %}<th scope="col">Actions</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in bands %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
+                            </td>
+                            <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
+                            {% if maj_permises %}
+                                <td class="text-center">
+                                    <a href="{% url 'bands:modifier_band' b.id %}"
+                                    class="btn btn-primary btn-sm" data-title="Modifier">
+                                    <span class="bi-pencil"></span>
+                                    </a>
+                                    <a href="{% url 'bands:supprimer_band' b.id %}"
+                                    class="btn btn-danger btn-sm" data-title="Supprimer">
+                                    <span class="bi-trash"></span>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "pagination.html" with page=bands %}
+        {% else %}
+            Tu es fan d'aucun band.
+        {% endif %}
+    </p>
+    <p>
+        <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Tous les bands</a>
+    </p>
+</div>
+{% endblock %}

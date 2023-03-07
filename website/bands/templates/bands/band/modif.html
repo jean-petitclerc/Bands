@@ -94,7 +94,7 @@
                                             <td>{{ c.country_alpha2 }}</td>
                                             <td>{{ c.country_alpha3 }}</td>
                                             <td class="text-center">
-                                                <a href="{% url 'bands:band_enlever_pays' band.id c.id %}" class="btn btn-danger btn-sm" data-title="Supprimer">
+                                                <a href="{% url 'bands:band_enlever_pays' band.id c.id %}" class="btn btn-danger btn-sm" data-title="Retirer">
                                                     <span class="bi-dash-circle"></span>
                                                 </a>
                                             </td>
@@ -107,6 +107,45 @@
                         {% endif %}
                     </p>
                     <a href="{% url 'bands:band_choisir_pays' band.id %}" class="btn btn-primary">Ajouter un pays</a>
+                    <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div>
+                <div class="card-body">
+                    <h3 class="card-title">Genres</h3>
+                    <p class="card-text">
+                        {% if genres %}
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Appellation</th>
+                                        <th class="text-center" scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for g in genres %}
+                                        <tr>
+                                            <td>{{ g.genre_name }}</td>
+                                            <td class="text-center">
+                                                <a href="{% url 'bands:band_enlever_genre' band.id g.id %}" class="btn btn-danger btn-sm" data-title="Retirer">
+                                                    <span class="bi-dash-circle"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                <tbody>
+                            </table>
+                        {% else %}
+                            Pas de genres.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'bands:band_choisir_genre' band.id %}" class="btn btn-primary">Ajouter un genre</a>
                     <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
                 </div>
             </div>
