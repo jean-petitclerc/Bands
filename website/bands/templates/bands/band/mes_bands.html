@@ -13,7 +13,7 @@
                     <tr>
                         <th scope="col">Nom</th>
                         <th scope="col">Ajouté par</th>
-                        {% if maj_permises %}<th scope="col">Actions</th>{% endif %}
+                        <th scope="col">Liens</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,18 +23,10 @@
                                 <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
                             </td>
                             <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
-                            {% if maj_permises %}
-                                <td class="text-center">
-                                    <a href="{% url 'bands:modifier_band' b.id %}"
-                                    class="btn btn-primary btn-sm" data-title="Modifier">
-                                    <span class="bi-pencil"></span>
-                                    </a>
-                                    <a href="{% url 'bands:supprimer_band' b.id %}"
-                                    class="btn btn-danger btn-sm" data-title="Supprimer">
-                                    <span class="bi-trash"></span>
-                                    </a>
-                                </td>
-                            {% endif %}
+                            <td>
+                                {% for l in b.links %}
+                                    <a href="{{ l.link_url }}" target="_blank" rel="noopener noreferrer">{{ l.link_name }}</a>
+                                {% endfor %}
                         </tr>
                     {% endfor %}
                 </tbody>

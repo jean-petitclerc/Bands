@@ -150,6 +150,8 @@ def list_my_bands(request):
         if request.user.groups.filter(name = 'Editeur').exists():
             maj_permises = True
     liste_bands = request.user.is_fan_of.all()
+    for b in liste_bands:
+        b.links = BandLink.objects.filter(band = b)
     paginator = Paginator(liste_bands, 25)
     no_de_page = request.GET.get('page', 1)
     bands = paginator.page(no_de_page)
