@@ -28,21 +28,21 @@
                         {% if maj_permises %}
                             <td class="text-center">
                                 <a href="{% url 'bands:modifier_band' b.id %}"
-                                class="btn btn-primary btn-sm" data-title="Modifier">
+                                class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier">
                                 <span class="bi-pencil"></span>
                                 </a>
                                 <a href="{% url 'bands:supprimer_band' b.id %}"
-                                class="btn btn-danger btn-sm" data-title="Supprimer">
+                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer">
                                 <span class="bi-trash"></span>
                                 </a>
                                 {% if b.is_fan %}
                                     <a href="{% url 'bands:ne_pas_aimer_band' b.id %}"
-                                    class="btn btn-primary btn-sm" data-title="NePlusAimer">
+                                    class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ne plus aimer">
                                     <span class="bi-heartbreak-fill"></span>
                                     </a>
                                 {% else %}
                                     <a href="{% url 'bands:aimer_band' b.id %}"
-                                    class="btn btn-primary btn-sm" data-title="Aimer">
+                                    class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Aimer">
                                     <span class="bi-heart-fill"></span>
                                     </a>
                                 {% endif %}
