@@ -67,3 +67,14 @@ class BandLink(models.Model):
 
     def __str__(self):
         return self.band.band_name + ':' + self.link_name
+
+
+class BandAEcouter(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_be_listened_by')
+    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='bands_to_listen')
+    added_ts = models.DateTimeField(auto_now_add=True)
+    listened_ts = models.DateTimeField(null=True, default=None)
+
+    class Meta:
+        ordering = ['added_ts']
+

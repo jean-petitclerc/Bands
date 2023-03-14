@@ -4,9 +4,9 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from .models import Band, BandLink, Country, Genre
+from .models import Band, BandAEcouter, BandLink, Country, Genre
 from .forms import FormAjoutGenre, FormModifGenre, FormAjoutBand, FormModifBand, FormAjoutBandLink, FormConfirmation
-
+from datetime import datetime as ts
 
 def list_countries(request):
     countries = Country.objects.all()
@@ -130,11 +130,21 @@ def list_bands(request):
     liste_bands = Band.objects.all()
     if request.user.is_authenticated:
         liste_bands_aimés = request.user.is_fan_of.all()
+        nb = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True).count()
+        print("Nombre: " + str(nb))
+        #liste_bands_à_écouter = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True)
+        liste_bands_à_écouter = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True).values_list('band_id', flat=True)
         for b in liste_bands:
             if b in liste_bands_aimés:
                 b.is_fan = True
             else:
                 b.is_fan = False
+            if b.id in liste_bands_à_écouter:
+                print("À écouter")
+                b.to_listen = True
+            else:
+                print("Pas à écouter")
+                b.to_listen = False
     paginator = Paginator(liste_bands, 25)
     no_de_page = request.GET.get('page', 1)
     bands = paginator.page(no_de_page)
@@ -434,3 +444,25 @@ def ne_pas_aimer_band(request, id):
         return redirect('bands:list_my_bands')
     except Band.DoesNotExist:
         raise Http404("Le band n'a pas été retrouvé.")
+
+
+@login_required
+def a_ecouter_band(request, id):
+    try:
+        band = Band.objects.get(id=id)
+        band_à_écouter = BandAEcouter(band=band, user=request.user, listened_ts=None)
+        band_à_écouter.save()
+        return redirect('bands:list_bands')
+    except Band.DoesNotExist:
+        raise Http404("Le band n'a pas été retrouvé.")
+
+
+@login_required
+def inscrire_ecoute_band(request, id):
+    try:
+        band_à_écouter = BandAEcouter.objects.filter(band_id=id).filter(user_id=request.user).filter(listened_ts__isnull=True).first()
+        band_à_écouter.listened_ts = ts.now()
+        band_à_écouter.save()
+        return redirect('bands:list_bands')
+    except BandAEcouter.DoesNotExist:
+        raise Http404("La demande d'écoute n'a pas été retrouvée.")

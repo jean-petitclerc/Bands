@@ -46,7 +46,18 @@
                                     <span class="bi-heart-fill"></span>
                                     </a>
                                 {% endif %}
-                            </td>
+                                {% if b.to_listen %}
+                                    <a href="{% url 'bands:inscrire_ecoute_band' b.id %}"
+                                    class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="J'ai écouté">
+                                    <span class="bi-check"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'bands:a_ecouter_band' b.id %}"
+                                    class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="À écouter">
+                                    <span class="bi-music-note-list"></span>
+                                    </a>
+                                {% endif %}
+                        </td>
                         {% endif %}
                     </tr>
                 {% endfor %}
