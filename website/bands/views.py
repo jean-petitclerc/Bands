@@ -458,11 +458,29 @@ def a_ecouter_band(request, id):
 
 
 @login_required
-def inscrire_ecoute_band(request, id):
+def inscrire_ecoute_band(request, id, redirect_to):
     try:
-        band_à_écouter = BandAEcouter.objects.filter(band_id=id).filter(user_id=request.user).filter(listened_ts__isnull=True).first()
+        print("ID: " + str(id) + " Redirect: " + redirect_to)
+        band_à_écouter = BandAEcouter.objects.filter(band_id=id).filter(user_id=request.user).filter(listened_ts__isnull = True).first()
+        print(band_à_écouter)
         band_à_écouter.listened_ts = ts.now()
         band_à_écouter.save()
-        return redirect('bands:list_bands')
+        if redirect_to == "a_ecouter":
+            return redirect('bands:liste_a_ecouter')
+        else:
+            return redirect('bands:list_bands')
     except BandAEcouter.DoesNotExist:
         raise Http404("La demande d'écoute n'a pas été retrouvée.")
+
+
+@login_required
+def liste_a_ecouter(request):
+    liste_bands = BandAEcouter.objects.filter(user_id=request.user).filter(listened_ts__isnull = True).order_by('added_ts').all()
+    #for b in liste_bands:
+    #    b.links = BandLink.objects.filter(band = b).order_by('link_name').all()
+    paginator = Paginator(liste_bands, 25)
+    no_de_page = request.GET.get('page', 1)
+    bands = paginator.page(no_de_page)
+    return render(request,
+                 'bands/band/a_ecouter.html',
+                 {'bands': bands})

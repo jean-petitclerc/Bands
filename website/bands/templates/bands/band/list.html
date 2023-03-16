@@ -47,7 +47,7 @@
                                     </a>
                                 {% endif %}
                                 {% if b.to_listen %}
-                                    <a href="{% url 'bands:inscrire_ecoute_band' b.id %}"
+                                    <a href="{% url 'bands:inscrire_ecoute_band' b.id 'list_bands' %}"
                                     class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="J'ai écouté">
                                     <span class="bi-check"></span>
                                     </a>

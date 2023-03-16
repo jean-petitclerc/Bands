@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Liste de mes bands{% endblock %}
+{% block title %}Liste de bands à écouter{% endblock %}
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h1>Liste de mes bands</h1>
+        <h1>Bands à écouter</h1>
     </div>
     <p>
         {% if bands %}
@@ -12,29 +12,31 @@
                 <thead>
                     <tr>
                         <th scope="col">Nom</th>
-                        <th scope="col">Ajouté par</th>
+                        <th scope="col">Ajouté le</th>
                         <th scope="col">Liens</th>
+                        <th scope="col">Marquer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for b in bands %}
                         <tr>
+                            <td>{{ b.band.band_name }}</td>
+                            <td>{{ b.added_ts }}</td>
                             <td>
-                                <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
-                            </td>
-                            <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
-                            <td>
-                                {% for l in b.links %}
+                                {% for l in b.band.link_for_a_band.all %}
                                     <a href="{{ l.link_url }}" target="_blank" rel="noopener noreferrer">{{ l.link_name }}</a>
                                 {% endfor %}
                             </td>
+                            <td><a href="{% url 'bands:inscrire_ecoute_band' b.band.id 'a_ecouter' %}"
+                                class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="J'ai écouté">
+                                <span class="bi-check"></span></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% include "pagination.html" with page=bands %}
         {% else %}
-            Tu es fan d'aucun band.
+            Tu n'as rien à écouter.
         {% endif %}
     </p>
     <p>

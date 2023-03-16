@@ -20,7 +20,7 @@ urlpatterns = [
     path('band/modif/<int:id>', views.modifier_band, name='modifier_band'),
     path('band/aimer/<int:id>', views.aimer_band, name='aimer_band'),
     path('band/a_ecouter/<int:id>', views.a_ecouter_band, name='a_ecouter_band'),
-    path('band/inscrire_ecoute/<int:id>', views.inscrire_ecoute_band, name='inscrire_ecoute_band'),
+    path('band/inscrire_ecoute/<int:id>/<str:redirect_to>', views.inscrire_ecoute_band, name='inscrire_ecoute_band'),
     path('band/ne_pas_aimer/<int:id>', views.ne_pas_aimer_band, name='ne_pas_aimer_band'),
     path('bandlink/ajout/<int:band_id>/', views.ajout_bandlink, name='ajout_bandlink'),
     path('bandlink/supp/<int:band_id>/<int:id>', views.supprimer_bandlink, name='supprimer_bandlink'),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('band/choisir_genre/<int:id>', views.band_choisir_genre, name='band_choisir_genre'),
     path('band/ajout_genre/<int:band_id>/<int:id>', views.band_ajouter_genre, name='band_ajouter_genre'),
     path('band/enlever_genre/<int:band_id>/<int:id>', views.band_enlever_genre, name='band_enlever_genre'),
-    path('mes_bands', views.list_my_bands, name='list_my_bands'),
+    path('band/liste_a_ecouter', views.liste_a_ecouter, name='liste_a_ecouter'),
+    path('band/mes_bands', views.list_my_bands, name='list_my_bands'),
 ]
