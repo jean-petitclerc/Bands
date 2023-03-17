@@ -130,9 +130,6 @@ def list_bands(request):
     liste_bands = Band.objects.all()
     if request.user.is_authenticated:
         liste_bands_aimés = request.user.is_fan_of.all()
-        nb = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True).count()
-        print("Nombre: " + str(nb))
-        #liste_bands_à_écouter = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True)
         liste_bands_à_écouter = BandAEcouter.objects.filter(user = request.user).filter( listened_ts__isnull = True).values_list('band_id', flat=True)
         for b in liste_bands:
             if b in liste_bands_aimés:
@@ -170,7 +167,7 @@ def list_my_bands(request):
                  {'bands': bands})
 
 
-def detail_band(request, id):
+def detail_band(request, id, redirect_to):
     try:
         band = Band.objects.get(id=id)
         links = BandLink.objects.filter(band = band)
@@ -180,7 +177,7 @@ def detail_band(request, id):
         raise Http404("Le Band n'a pas été retrouvé.")
     return render(request,
                   'bands/band/detail.html',
-                  {'band': band, 'links': links, 'genres': genres, 'countries': countries})
+                  {'band': band, 'links': links, 'genres': genres, 'countries': countries, 'redirect_to': redirect_to})
 
 
 @login_required

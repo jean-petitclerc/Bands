@@ -22,7 +22,7 @@
                 {% for b in bands %}
                     <tr>
                         <td>
-                            <a href="{% url 'bands:detail_band' b.id %}">{{ b.band_name }}</a>
+                            <a href="{% url 'bands:detail_band' b.id 'list_bands' %}">{{ b.band_name }}</a>
                         </td>
                         <td>{{ b.aud_crt_user.username }} le {{ b.aud_crt_ts }}</td>
                         {% if maj_permises %}

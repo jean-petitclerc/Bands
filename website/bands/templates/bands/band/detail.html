@@ -102,7 +102,15 @@
         </ul>
         </p>
         <p>
-            <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+            {% if redirect_to == "list_bands" %}
+                <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+            {% elif redirect_to == "mes_bands" %}
+                <a href="{% url 'bands:list_my_bands' %}" class="btn btn-primary">Retour à la liste</a>
+            {% elif redirect_to == "a_ecouter" %}
+                <a href="{% url 'bands:liste_a_ecouter' %}" class="btn btn-primary">Retour à la liste</a>
+            {% else %}
+                <a href="{% url 'bands:list_bands' %}" class="btn btn-primary">Retour à la liste</a>
+            {% endif %}
         </p>
     </div>
 {% endblock %}

@@ -20,7 +20,9 @@
                 <tbody>
                     {% for b in bands %}
                         <tr>
-                            <td>{{ b.band.band_name }}</td>
+                            <td>
+                                <a href="{% url 'bands:detail_band' b.band.id 'a_ecouter' %}">{{ b.band.band_name }}</a>
+                            </td>
                             <td>{{ b.added_ts }}</td>
                             <td>
                                 {% for l in b.band.link_for_a_band.all %}
