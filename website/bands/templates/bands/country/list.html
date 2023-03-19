@@ -13,6 +13,7 @@
                     <th scope="col">Alpha 3</th>
                     <th scope="col">Nom français</th>
                     <th scope="col">Nom anglais</th>
+                    <th scope="col">Nb de Bands</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@
                         <td>{{ c.country_alpha3 }}</td>
                         <td>{{ c.country_name_fr }}</td>
                         <td>{{ c.country_name_en }}</td>
+                        <td>
+                            <a href="{% url 'bands:list_country_bands' c.id %}">{{ c.created_bands.count}}</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

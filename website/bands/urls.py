@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.list_bands, name='list_bands'),
     path('country', views.list_countries, name='list_countries'),
     path('country/<int:id>/', views.detail_country, name='detail_country'),
+    path('country_bands/<int:id>/', views.list_country_bands, name='list_country_bands'),
     path('genre', views.list_genres, name='list_genres'),
     path('genre/<int:id>/', views.detail_genre, name='detail_genre'),
     path('genre/ajout', views.ajout_genre, name='ajout_genre'),
