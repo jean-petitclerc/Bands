@@ -29,6 +29,7 @@
                                     {% if user.is_authenticated %}
                                         <li><a class="dropdown-item" href="{% url 'bands:list_my_bands' %}">Mes bands</a></li>
                                         <li><a class="dropdown-item" href="{% url 'bands:liste_a_ecouter' %}">À écouter</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'bands:liste_ecoutes' %}">Dernières écoutes</a></li>
                                     {% endif %}
                                 </ul>
                             </li>

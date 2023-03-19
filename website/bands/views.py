@@ -456,11 +456,15 @@ def ne_pas_aimer_band(request, id):
 
 
 @login_required
-def a_ecouter_band(request, id):
+def a_ecouter_band(request, id, redirect_to):
     try:
         band = Band.objects.get(id=id)
         band_à_écouter = BandAEcouter(band=band, user=request.user, listened_ts=None)
         band_à_écouter.save()
+        if redirect_to == 'a_ecouter':
+            return redirect('bands:liste_a_ecouter')
+        else:
+            return redirect('bands:list_bands')
         return redirect('bands:list_bands')
     except Band.DoesNotExist:
         raise Http404("Le band n'a pas été retrouvé.")
@@ -488,4 +492,15 @@ def liste_a_ecouter(request):
     bands = paginator.page(no_de_page)
     return render(request,
                  'bands/band/a_ecouter.html',
+                 {'bands': bands})
+
+
+@login_required
+def liste_ecoutes(request):
+    liste_bands = BandAEcouter.objects.filter(user_id=request.user).filter(listened_ts__isnull = False).order_by('-listened_ts').all()
+    paginator = Paginator(liste_bands, 25)
+    no_de_page = request.GET.get('page', 1)
+    bands = paginator.page(no_de_page)
+    return render(request,
+                 'bands/band/dernieres_ecoutes.html',
                  {'bands': bands})

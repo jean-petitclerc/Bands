@@ -33,5 +33,6 @@ urlpatterns = [
     path('band/ajout_genre/<int:band_id>/<int:id>', views.band_ajouter_genre, name='band_ajouter_genre'),
     path('band/enlever_genre/<int:band_id>/<int:id>', views.band_enlever_genre, name='band_enlever_genre'),
     path('band/liste_a_ecouter', views.liste_a_ecouter, name='liste_a_ecouter'),
+    path('band/liste_ecoutes', views.liste_ecoutes, name='liste_ecoutes'),
     path('band/mes_bands', views.list_my_bands, name='list_my_bands'),
 ]
