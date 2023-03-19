@@ -26,7 +26,11 @@
                         <td>{{ c.country_name_fr }}</td>
                         <td>{{ c.country_name_en }}</td>
                         <td>
-                            <a href="{% url 'bands:list_country_bands' c.id %}">{{ c.created_bands.count}}</a>
+                            {% if c.created_bands.count == 0 %}
+                                0
+                            {% else %} 
+                                <a href="{% url 'bands:list_country_bands' c.id %}">{{ c.created_bands.count}}</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

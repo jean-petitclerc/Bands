@@ -18,6 +18,7 @@
                     {% if maj_permises %}
                         <th scope="col">Actions</th>
                     {% endif %}
+                    <th scope="col">Nb de Bands</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,13 @@
                                 </a>
                             </td>
                         {% endif %}
+                        <td>
+                            {% if g.genre_played_by_bands.count == 0 %}
+                                0
+                            {% else %}
+                                <a href="{% url 'bands:list_genre_bands' g.id %}">{{ g.genre_played_by_bands.count}}</a>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

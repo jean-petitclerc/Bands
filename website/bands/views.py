@@ -155,6 +155,13 @@ def list_country_bands(request, id):
                  {'country': country})
 
 
+def list_genre_bands(request, id):
+    genre = Genre.objects.get(id=id)
+    return render(request,
+                 'bands/genre/list_bands.html',
+                 {'genre': genre})
+
+
 @login_required
 def list_my_bands(request):
     maj_permises = False

@@ -14,6 +14,7 @@ urlpatterns = [
     path('genre/ajout', views.ajout_genre, name='ajout_genre'),
     path('genre/supp/<int:id>', views.supprimer_genre, name='supprimer_genre'),
     path('genre/modif/<int:id>', views.modifier_genre, name='modifier_genre'),
+    path('genre_bands/<int:id>/', views.list_genre_bands, name='list_genre_bands'),
     path('band', views.list_bands, name='list_bands'),
     path('band/<int:id>/<str:redirect_to>', views.detail_band, name='detail_band'),
     path('band/ajout', views.ajout_band, name='ajout_band'),
